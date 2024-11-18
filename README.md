@@ -46,9 +46,10 @@ The **Real-Time Face Recognition-Based Attendance System** leverages computer vi
 │   ├── utils.py         # Utility functions for face detection and training
 │   ├── models.py        # Database models for Students and Attendance
 │   ├── templates/       # HTML templates for UI
-│   │   ├── register.html
-│   │   ├── home.html
-│   │   └── attendance.html
+|   |   └── face_recognition/ 
+│   │       ├── register.html
+│   │       ├── home.html
+│   │       └── attendance.html
 ├── 📁 media/            # Storage for training images and trained model
 │   ├── training_images/ 
 │   └── trainer.yml      # Trained face recognizer data
@@ -85,7 +86,7 @@ The **Real-Time Face Recognition-Based Attendance System** leverages computer vi
 ### Installation  
 1. Clone this repository:  
    ```bash
-   git clone https://github.com/your-repo/attendance-system.git
+   git clone https://github.com/Gourav9165/attendance-system.git
    cd attendance-system
    ```
 
