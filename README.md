@@ -114,7 +114,7 @@ The **Real-Time Face Recognition-Based Attendance System** leverages computer vi
 ## 🎥 **How It Works**  
 
 1. **Register a Student**  
-   ![Registration GIF](URL to GIF or Image)
+   ![Registration GIF](media/Output/Registration/mp4)
 
 2. **Take Attendance**  
    ![Attendance GIF](URL to GIF or Image)
