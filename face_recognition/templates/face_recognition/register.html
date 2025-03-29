@@ -197,36 +197,309 @@
       }
     }
 
+    #registerModal .modal-dialog {
+      max-width: 800px;
+      /* Adjust if needed */
+    }
+
+    #registerModal .modal-content {
+      border: none;
+      border-radius: 12px;
+      /* Slightly less rounded */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+    }
+
+    /* --- Modal Header --- */
+    #registerModal .modal-header {
+      /* Use a subtle gradient or solid color matching the theme */
+      background: linear-gradient(135deg, #dde5f9, #eef2ff, #dde5f9);
+      /* Lighter gradient */
+      /* Or a solid color: background-color: #e7effd; */
+      color: #334d6e;
+      /* Slightly softer dark blue */
+      border-bottom: 1px solid #dbe3f8;
+      /* Subtle separator */
+      padding: 1rem 1.5rem;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    #registerModal .modal-title {
+      font-weight: 600;
+      /* Keep heading bold */
+      font-size: 1.25rem;
+      /* Standard title size */
+    }
+
+    #registerModal .btn-close {
+      /* Standard close button appearance */
+      filter: none;
+      /* Reset filter */
+      opacity: 0.6;
+    }
+
+    #registerModal .btn-close:hover {
+      opacity: 0.9;
+    }
+
+
+    /* --- Modal Body --- */
+    #registerModal .modal-body {
+      padding: 1.5rem 2rem;
+      /* Adjust padding */
+      display: flex;
+      gap: 25px;
+      align-items: flex-start;
+    }
+
     #cameraPreviewContainer {
-      width: 100%;
-      max-width: 320px;
-      /* Or adjust as needed */
-      margin: 15px auto;
-      /* Center it above the form */
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      flex: 0 0 320px;
+      /* Slightly smaller fixed width */
+      border: 1px solid #dce4f0;
+      /* Lighter border */
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      /* Light background */
+      position: relative;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      /* Important */
-      background-color: #333;
-      /* Placeholder background */
+      /* Ensure video fits */
     }
 
     #cameraPreview {
       display: block;
-      /* Remove extra space below video */
       width: 100%;
-      height: auto;
-      /* Maintain aspect ratio */
+      height: 100%;
+      object-fit: cover;
       transform: scaleX(-1);
-      /* Mirror image like a real mirror */
+      border-radius: 8px;
+      /* Match container */
     }
 
     #cameraError {
-      color: red;
+      color: #dc3545;
+      padding: 15px;
+      font-weight: 500;
       text-align: center;
-      padding: 10px;
       display: none;
-      /* Hide by default */
+      position: absolute;
+      width: 100%;
+      /* Cover the area */
+      background-color: rgba(248, 249, 250, 0.9);
+      /* Light background for error text */
+    }
+
+
+    /* --- Form Styling --- */
+    #registrationFormContainer {
+      flex: 1 1 auto;
+      padding-left: 1rem;
+      /* Space from preview */
+      /* Remove the border separator: border-left: none; */
+    }
+
+    #registrationFormContainer>p {
+      font-size: 1rem;
+      color: #5a6a85;
+      /* Softer text color */
+      margin-bottom: 1.2rem;
+    }
+
+    #registrationForm .form-label {
+      font-weight: 500;
+      /* Standard weight */
+      font-size: 0.9rem;
+      color: #4a5e7a;
+      /* Theme-consistent label color */
+      margin-bottom: 0.3rem;
+    }
+
+    /* Style the input fields */
+    #registrationForm .form-control {
+      border-radius: 6px;
+      /* Less rounded */
+      border: 1px solid #cdd7e8;
+      /* Theme border color */
+      background-color: #fdfdff;
+      /* Very light off-white */
+      padding: 0.6rem 0.9rem;
+      /* Adjust padding */
+      font-size: 0.95rem;
+      color: #334d6e;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Input placeholder text */
+    #registrationForm .form-control::placeholder {
+      color: #aab5c9;
+    }
+
+    #registrationForm .form-control:focus {
+      border-color: #9bb9f1;
+      /* Focus border color */
+      background-color: #ffffff;
+      /* White on focus */
+      box-shadow: 0 0 0 0.2rem rgba(155, 185, 241, 0.25);
+      /* Lighter focus glow */
+      outline: none;
+    }
+
+    /* Displaying Django validation errors */
+    #registrationForm .invalid-feedback {
+      font-size: 0.85rem;
+      color: #e63946;
+      /* Clear red for errors */
+    }
+
+
+    /* --- Footer Styling --- */
+    #registerModal .modal-footer {
+      background-color: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      padding: 0.9rem 1.5rem;
+      /* Slightly less padding */
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #captureInfo,
+    #captureProgress {
+      font-size: 0.85em;
+      margin: 0;
+    }
+
+    #captureInfo {
+      color: #6c757d;
+    }
+
+    #captureProgress {
+      color: #0d6efd;
+      font-weight: 500;
+    }
+
+    #captureProgress .spinner-border-sm {
+      vertical-align: -0.1em;
+      margin-right: 0.4em;
+    }
+
+
+    /* --- Button Styling in Footer --- */
+    #registerModal .modal-footer .btn {
+      border-radius: 6px;
+      /* Match input roundness */
+      padding: 0.55rem 1.4rem;
+      /* Adjust padding */
+      font-weight: 500;
+      /* Standard weight */
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid transparent;
+      /* Base border */
+    }
+
+    /* Primary Button (Capture & Register) */
+    #registerModal .modal-footer .btn-primary {
+      background-color: #0d6efd;
+      /* Bootstrap primary */
+      color: #ffffff;
+      border-color: #0d6efd;
+    }
+
+    #registerModal .modal-footer .btn-primary:hover {
+      background-color: #0b5ed7;
+      border-color: #0a58ca;
+      box-shadow: 0 2px 5px rgba(13, 110, 253, 0.3);
+      transform: translateY(-1px);
+    }
+
+    #registerModal .modal-footer .btn-primary i {
+      /* Style the icon */
+      margin-right: 0.5em;
+      font-size: 0.9em;
+      /* Slightly smaller icon */
+    }
+
+
+    /* Secondary Button (Cancel) */
+    #registerModal .modal-footer .btn-secondary {
+      background-color: #f8f9fa;
+      /* Light background */
+      color: #5a6a85;
+      /* Darker text */
+      border-color: #d3d9e3;
+      /* Light border */
+    }
+
+    #registerModal .modal-footer .btn-secondary:hover {
+      background-color: #e9ecef;
+      border-color: #c8cfda;
+      color: #495057;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    }
+
+    #registerModal .modal-footer .btn:disabled {
+      transform: none;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      opacity: 0.65;
+    }
+
+
+    /* --- Responsive Adjustments (Keep or adjust as needed) --- */
+    @media (max-width: 767px) {
+
+      /* Previous responsive rules can likely stay similar */
+      /* Adjust padding/margins if needed for smaller screens */
+      #registerModal .modal-body {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        gap: 20px;
+      }
+
+      #cameraPreviewContainer {
+        flex-basis: auto;
+        width: 90%;
+        max-width: 300px;
+        margin-bottom: 1.5rem;
+      }
+
+      #registrationFormContainer {
+        width: 100%;
+        padding-left: 0;
+      }
+
+      #registerModal .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      #registerModal .modal-footer>div:first-child {
+        order: 2;
+        text-align: center;
+      }
+
+      #registerModal .modal-footer>div:last-child {
+        order: 1;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      #registerModal .modal-footer .btn {
+        width: auto;
+        flex-grow: 1;
+        /* Let buttons grow */
+      }
     }
   </style>
 </head>
@@ -243,8 +516,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="{% url 'register_student' %}"><i class="fas fa-user-plus me-1"></i> Register</a>
-          <a class="nav-link" href="{% url 'home' %}">
+          <a class="nav-link active" href="{% url 'register_student' %}"><i class="fas fa-user-plus me-1"></i>
+            Register</a>
+          <a class="nav-link" href="{% url 'take_attendance' %}" onclick="showAttendanceModal(event)">
+            <!-- Assuming home.html function is available or add it here too -->
             <i class="fas fa-calendar-check me-1"></i> Take Attendance
           </a>
           <a class="nav-link" href="{% url 'view_attendance' %}"><i class="fas fa-eye me-1"></i> View Attendance</a>
@@ -252,118 +527,236 @@
       </div>
     </div>
   </nav>
+
   <!-- Main Content Area -->
-  <div class="container d-flex justify-content-center align-items-center" style="padding-top: 100px;">
-    <!-- Adjust padding-top if navbar overlaps -->
-    <div class="form-container">
-      {% if messages %}
-      <div class="alert alert-success" role="alert">
-        {% for message in messages %} {{ message }} {% endfor %}
+  <div class="container content-wrapper">
+    <h1>Register New Student</h1>
+    <p>Click the button below to open the registration form and activate the camera.</p>
+    <button type="button" class="btn btn-primary btn-launch-modal mt-3" data-bs-toggle="modal"
+      data-bs-target="#registerModal">
+      <i class="fas fa-user-plus me-2"></i> Start Registration
+    </button>
+
+    <!-- Display Django messages if they exist from previous actions -->
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
 
-      <div class="header">
-        <h2>Register Student</h2>
-      </div>
-
-      <!-- Camera Preview Area -->
-      <div id="cameraPreviewContainer">
-        <video id="cameraPreview" autoplay playsinline></video>
-        <div id="cameraError">Could not access camera. Please ensure permissions are granted.</div>
-      </div>
-      <!-- End Camera Preview Area -->
-
-      <!-- Form Area -->
-      <div class="form-fields px-3"> <!-- Add padding if needed -->
-        <form method="post" id="registrationForm">
-          {% csrf_token %}
-          <!-- Render form fields more compactly if needed -->
-          {% for field in form %}
-          <div class="mb-2"> <!-- Smaller margin -->
-            {{ field.label_tag }} {{ field }}
-            {% if field.errors %}
-            <div class="text-danger small">{{ field.errors }}</div>
-            {% endif %}
-          </div>
-          {% endfor %}
-
-          <div class="text-center"> <!-- Center button -->
-            <button type="submit" class="btn btn-primary mt-3" id="submitBtn">
-              <i class="fas fa-user-plus me-2"></i> Register & Capture Images
-            </button>
-          </div>
-          <div id="captureProgress" class="d-none mt-3">
-            <p class="text-center"><i>Submitting... The system will now capture face images.</i></p>
-            <p class="text-center small"><i>Please look at the camera after submission.</i></p>
-            <!-- Progress bar removed as backend handles capture duration -->
-          </div>
-        </form>
-      </div>
-      <!-- End Form Area -->
-
-    </div><!-- End Form Container -->
-  </div><!-- End Main Content Area -->
-  <div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <!-- Registration Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg"> <!-- modal-lg for potentially more space -->
       <div class="modal-content">
-        <div class="modal-body text-center">
-          <h5 class="modal-title" id="attendanceModalLabel">
-            Capturing Face...
-          </h5>
-          <p>Please look at the camera for attendance capturing.</p>
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Student Registration & Face Capture</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            id="modalCloseBtn"></button>
         </div>
+        <form method="post" id="registrationForm" action="{% url 'register_student' %}">
+          <!-- Ensure action points to the correct view -->
+          {% csrf_token %}
+          <div class="modal-body">
+            <!-- Camera Preview Area -->
+            <div id="cameraPreviewContainer">
+              <video id="cameraPreview" autoplay playsinline></video>
+              <div id="cameraError">Could not access camera. Please grant permission and ensure it's not in use.</div>
+            </div>
+            <!-- Form Fields Area -->
+            <div id="registrationFormContainer">
+              <p>Please fill in the student details below:</p>
+
+              <div class="mb-3">
+                <label for="{{ form.student_id.id_for_label }}" class="form-label">{{ form.student_id.label }}</label>
+                {{ form.student_id }}
+                {% if form.student_id.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.student_id.errors|striptags }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.name.errors|striptags }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.email.errors|striptags }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.phone.errors|striptags }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="mb-3">
+                <label for="{{ form.branch.id_for_label }}" class="form-label">{{ form.branch.label }}</label>
+                {{ form.branch }}
+                {% if form.branch.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.branch.errors|striptags }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between"> <!-- Align buttons -->
+            <div>
+              <span id="captureInfo">Look at the camera for face capture upon submission.</span>
+              <div id="captureProgress" class="d-none text-primary fw-bold">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Processing registration and capturing images...
+              </div>
+            </div>
+            <div>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="modalCancelBtn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="modalSubmitBtn">
+                <i class="fas fa-camera me-2"></i> Capture & Register
+              </button>
+            </div>
+          </div>
+        </form> <!-- End Form -->
       </div>
     </div>
   </div>
+  <!-- End Registration Modal -->
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // --- Camera Preview Script ---
+    const registerModalElement = document.getElementById('registerModal');
+    const registerModal = new bootstrap.Modal(registerModalElement);
     const videoElement = document.getElementById('cameraPreview');
     const cameraErrorElement = document.getElementById('cameraError');
-    let stream = null; // To hold the stream reference
+    const registrationForm = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('modalSubmitBtn');
+    const cancelBtn = document.getElementById('modalCancelBtn'); // Or close button
+    const captureProgress = document.getElementById('captureProgress');
+    const captureInfo = document.getElementById('captureInfo');
+
+
+    let stream = null;
 
     async function startCameraPreview() {
       try {
-        // Stop any existing stream first
-        stopCameraPreview();
+        console.log("Attempting to start camera preview...");
+        stopCameraPreview(); // Ensure any previous stream is stopped
 
         stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         videoElement.srcObject = stream;
-        cameraErrorElement.style.display = 'none'; // Hide error message on success
-        videoElement.style.display = 'block';
+        videoElement.style.display = 'block'; // Ensure video is visible
+        cameraErrorElement.style.display = 'none';
+        console.log("Camera preview started successfully.");
       } catch (err) {
         console.error("Error accessing camera: ", err);
-        cameraErrorElement.style.display = 'block'; // Show error message
+        cameraErrorElement.style.display = 'block';
         videoElement.style.display = 'none';
+        // Optionally disable submit button if camera fails crucial step
+        // submitBtn.disabled = true;
       }
     }
 
     function stopCameraPreview() {
       if (stream) {
+        console.log("Stopping camera preview...");
         stream.getTracks().forEach(track => track.stop());
         stream = null;
-        videoElement.srcObject = null; // Clear the video element source
+        videoElement.srcObject = null;
+        console.log("Camera preview stopped.");
       }
     }
 
-    // Start preview when the page loads
-    document.addEventListener('DOMContentLoaded', startCameraPreview);
-
-    // Optional: Stop camera when navigating away
-    window.addEventListener('beforeunload', stopCameraPreview);
-    // --- End Camera Preview Script ---
-    // --- Existing Form Submission Script ---
-    document.getElementById("registrationForm").addEventListener("submit", function (e) {
-      // Only disable button and show message, actual capture is backend
-      document.getElementById("submitBtn").disabled = true;
-      document.getElementById("submitBtn").innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
-      document.getElementById("captureProgress").classList.remove("d-none");
-      // Stop the preview *before* submitting, as the backend will immediately try to access the camera
-      stopCameraPreview();
+    // --- Modal Event Listeners ---
+    registerModalElement.addEventListener('show.bs.modal', event => {
+      console.log("Modal show event triggered.");
+      // Reset form state if needed (optional)
+      // registrationForm.reset();
+      captureProgress.classList.add('d-none');
+      captureInfo.classList.remove('d-none');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-camera me-2"></i> Capture & Register';
+      cameraErrorElement.style.display = 'none'; // Hide error on open
+      videoElement.style.display = 'block'; // Ensure video visible on open
+      startCameraPreview(); // Start camera when modal is about to be shown
     });
+
+    registerModalElement.addEventListener('hide.bs.modal', event => {
+      console.log("Modal hide event triggered.");
+      stopCameraPreview(); // Stop camera when modal is hidden
+    });
+
+    // --- Form Submission ---
+    registrationForm.addEventListener('submit', function (e) {
+      console.log("Form submit event triggered.");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+      captureInfo.classList.add('d-none');
+      captureProgress.classList.remove('d-none');
+
+      // Hide the video element just before stopping stream to mitigate grey frame
+      videoElement.style.display = 'none';
+
+      // Stop the preview stream *before* submitting
+      // This is crucial to release the camera for the backend
+      stopCameraPreview();
+
+      // Allow the native form submission to proceed
+      console.log("Proceeding with form submission to backend...");
+    });
+
+    // If using the Take Attendance function from home.html, include it here too
+    function showAttendanceModal(event) {
+      event.preventDefault(); // Prevent default link behavior
+      const targetUrl = event.currentTarget.href; // Get the URL from the clicked link/button
+
+      // Show the modal immediately (it will show placeholder/styles first)
+      attendanceModal.show();
+
+      // Then try to start the camera preview
+      startAttendancePreview(targetUrl);
+    }
+
+    // Handle Cancel button click
+    cancelBtn.addEventListener('click', () => {
+      stopAttendancePreview();
+      attendanceModal.hide();
+      attendanceSpinner.classList.add('d-none'); // Ensure spinner is hidden
+      attendanceErrorElement.style.display = 'none'; // Hide error
+      attendanceVideoElement.style.display = 'block'; // Reset video display for next time
+    });
+
+    // Optional: Stop camera if modal is somehow closed unexpectedly
+    attendanceModalElement.addEventListener('hidden.bs.modal', () => {
+      stopAttendancePreview(); // Ensure camera is off if modal is closed
+      attendanceSpinner.classList.add('d-none');
+      attendanceErrorElement.style.display = 'none';
+      attendanceVideoElement.style.display = 'block'; // Reset
+    });
+
   </script>
 </body>
 
