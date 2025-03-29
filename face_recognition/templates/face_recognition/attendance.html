@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,197 +10,529 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
+    /* --- Base & Fonts --- */
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+    :root {
+      --primary-glow: rgba(88, 101, 242, 0.6);
+      --primary-gradient-start: #8a9af1;
+      --primary-gradient-end: #6c7bf0;
+      --secondary-bg: #f2f3f7;
+      --text-dark: #2c3e50;
+      --text-light: #f8f9fa;
+      --text-muted: #6c757d;
+      --border-light: #e0e7ff;
+      --border-focus: #a3b1f1;
+      --modal-bg: #ffffff;
+      /* Used for containers */
+      --success-gradient-start: #60d394;
+      --success-gradient-end: #50c184;
+      --success-glow: rgba(80, 220, 100, 0.5);
+      --danger-glow: rgba(240, 68, 56, 0.5);
+      --border-radius-md: 12px;
+      --border-radius-sm: 8px;
+      --table-header-bg: linear-gradient(180deg, #f8f9fc, #eef2f7);
+      /* Subtle gradient for header */
+      --table-row-hover-bg: rgba(163, 177, 241, 0.15);
+      /* Light primary tint on hover */
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-      transition: all 0.3s ease;
     }
+
     body {
-      background-color: #c6d6fb85;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e0e7ff 0%, #c6d6fb 50%, #dde5f9 100%);
+      background-size: 200% 200%;
+      animation: gradientBG 15s ease infinite;
       display: flex;
-      justify-content: center;
+      /* justify-content: center; -- Let content flow naturally */
       align-items: center;
       flex-direction: column;
       min-height: 100vh;
       width: 100%;
+      overflow-x: hidden;
+      padding-top: 120px;
+      /* Space for fixed navbar */
+      padding-bottom: 40px;
     }
-    .navbar {
-      background: linear-gradient(135deg, #93A5CF, #c6d6fb, #93A5CF);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 20px;
-      width: 99%;
-      position: fixed;
-      top: -80px;
-      z-index: 1000;
-      animation: slideDown 0.8s ease forwards;
-    }
-    @keyframes slideDown {
-      to {
-        top: 1.8%;
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
       }
     }
+
+    /* --- Navbar (Same Enhanced Style) --- */
+    .navbar {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      box-shadow: 0 8px 32px 0 rgba(147, 165, 207, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--border-radius-md);
+      width: 98%;
+      max-width: 1200px;
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      animation: slideDownNav 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
+      padding: 0.8rem 1.5rem;
+    }
+
+    @keyframes slideDownNav {
+      to {
+        top: 15px;
+      }
+    }
+
     .navbar-brand {
-      font-family: "Roboto", sans-serif;
       font-weight: 700;
       font-size: 1.5rem;
-      color: #2c3e50;
+      color: var(--text-dark);
+      transition: color 0.3s ease;
     }
+
+    .navbar-brand:hover {
+      color: var(--primary-gradient-end);
+    }
+
+    .navbar-brand i {
+      color: var(--primary-gradient-end);
+      margin-right: 8px;
+    }
+
     .nav-link {
-      color: #2c3e50 !important;
+      color: var(--text-dark) !important;
       margin-left: 1.5rem;
       font-weight: 500;
       position: relative;
+      padding-bottom: 6px;
+      transition: color 0.3s ease;
     }
+
     .nav-link::after {
       content: "";
       position: absolute;
       left: 0;
-      bottom: -4px;
+      bottom: 0;
       width: 100%;
-      height: 2px;
-      background-color: #2c3e50;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));
+      border-radius: 3px;
       transform: scaleX(0);
-      transition: transform 0.3s ease;
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .nav-link:hover::after {
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-gradient-end) !important;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
       transform: scaleX(1);
     }
+
+    .nav-link i {
+      margin-right: 6px;
+      opacity: 0.8;
+    }
+
+
+    /* --- Page Content Container --- */
     .content-container {
       flex: 1;
-      padding: 3rem 1rem;
+      padding: 0 1rem;
+      /* Add horizontal padding */
       width: 100%;
-      max-width: 1000px;
-      margin-top: 3%;
+      max-width: 1140px;
+      /* Wider for table */
+      margin-top: 20px;
+      /* Space below navbar */
+      animation: fadeInContent 1s ease-out 0.5s forwards;
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.4s forwards;
+      transform: translateY(20px);
     }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
+
+    @keyframes fadeInContent {
       to {
         opacity: 1;
+        transform: translateY(0);
       }
     }
+
+
+    /* --- Filters Container --- */
+    .filters-container {
+      background: rgba(255, 255, 255, 0.5);
+      /* Frosted glass */
+      backdrop-filter: blur(8px) saturate(160%);
+      -webkit-backdrop-filter: blur(8px) saturate(160%);
+      border-radius: var(--border-radius-md);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 25px rgba(147, 165, 207, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideInFilters 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.6s forwards;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    @keyframes slideInFilters {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Filter Input Groups */
+    .filters-container .input-group {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+      /* Clip shadows nicely */
+    }
+
+    .filters-container .input-group-text {
+      background-color: var(--secondary-bg);
+      border: 1px solid var(--border-light);
+      border-right: none;
+      /* Remove border between text and input */
+      color: var(--primary-gradient-end);
+      font-size: 1.1rem;
+      /* Slightly larger icon */
+      padding: 0.6rem 0.9rem;
+    }
+
+    .filters-container .filter-input {
+      border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+      /* Adjust radius */
+      border: 1px solid var(--border-light);
+      background-color: #fdfdff;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: none;
+      /* Remove default inner shadow */
+    }
+
+    .filters-container .filter-input:focus {
+      border-color: var(--border-focus);
+      background-color: var(--modal-bg);
+      box-shadow: 0 0 0 3px rgba(163, 177, 241, 0.3);
+      outline: none;
+      z-index: 2;
+      /* Bring focus element above siblings */
+    }
+
+    .filters-container .filter-input::placeholder {
+      color: #adb5bd;
+    }
+
+    /* Export Button */
+    .export-btn {
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      /* Pill shape */
+      background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+      color: var(--text-light);
+      border: none;
+      box-shadow: 0 4px 12px 0 rgba(108, 123, 240, 0.4);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transform: perspective(1px) translateZ(0);
+    }
+
+    .export-btn i {
+      margin-right: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .export-btn:hover {
+      background: linear-gradient(135deg, var(--primary-gradient-end), var(--primary-gradient-start));
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 6px 18px 0 rgba(108, 123, 240, 0.55);
+      color: var(--text-light);
+    }
+
+    .export-btn:hover i {
+      transform: scale(1.1) rotate(10deg);
+    }
+
+
+    /* --- Table Container --- */
     .table-container {
-      background: #ffffff;
-      border: 1px solid #e0e7ff;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      animation: fadeInZoom 0.8s ease;
+      background: rgba(255, 255, 255, 0.65);
+      /* More opaque frosted glass */
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border-radius: var(--border-radius-md);
+      padding: 2rem 2.5rem;
+      box-shadow: 0 15px 45px rgba(147, 165, 207, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      animation: slideInTable 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
+      opacity: 0;
+      transform: translateY(20px);
     }
-    @keyframes fadeInZoom {
-      from {
-        transform: scale(0.9);
-        opacity: 0;
-      }
+
+    @keyframes slideInTable {
       to {
-        transform: scale(1);
         opacity: 1;
+        transform: translateY(0);
       }
     }
+
     .table-container h2 {
-      font-size: 2.5rem;
-      color: #2c3e50;
+      font-size: 2rem;
+      /* Slightly smaller */
+      color: var(--text-dark);
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      /* More space */
       text-align: center;
+      letter-spacing: 0.5px;
     }
-    table {
+
+    /* --- Table Styling --- */
+    .table {
       width: 100%;
+      border-collapse: separate;
+      /* Allows border-radius on cells */
+      border-spacing: 0;
+      /* Remove space between cells */
       margin-top: 1.5rem;
     }
-    th,
-    td {
-      padding: 0.75rem;
+
+    /* Table Header */
+    .table thead th {
+      background: var(--table-header-bg);
+      color: #495a75;
+      /* Dark muted blue */
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.9rem 1rem;
+      /* Adjust padding */
       text-align: left;
-      font-size: 1rem;
+      vertical-align: middle;
+      border-bottom: 2px solid var(--border-light);
+      /* Stronger bottom border */
+      text-transform: uppercase;
+      /* Optional: uppercase headers */
+      letter-spacing: 0.5px;
     }
-    th {
-      background: linear-gradient(150deg, #ffffff, #b7b5b529);
-      color: #2c3e50;
+
+    /* Add radius to first and last header cells */
+    .table thead th:first-child {
+      border-top-left-radius: var(--border-radius-sm);
     }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
+
+    .table thead th:last-child {
+      border-top-right-radius: var(--border-radius-sm);
     }
-    .table-hover tbody tr:hover {
-      background-color: #e9f5ff;
-      transform: scale(1.01);
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    @media (max-width: 768px) {
-      .navbar-brand {
-        font-size: 1.3rem;
-      }
-      h2 {
-        font-size: 2rem;
-      }
-      th,
-      td {
-        font-size: 0.9rem;
-      }
-    }
-    .filters-container {
-      background: linear-gradient(135deg, #ffffff, #e7e6e667, #ffffff);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    }
-    .filter-input {
-      border: 2px solid #e0e7ff;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      transition: all 0.3s ease;
-    }
-    .filter-input:focus {
-      border-color: #2c3e50;
-      box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
-    }
-    .sortable {
+
+    /* Sortable Header */
+    .table th.sortable {
       cursor: pointer;
       position: relative;
-      padding-right: 1.5rem;
+      padding-right: 1.8rem;
+      /* More space for icon */
+      transition: background-color 0.2s ease;
     }
-    .sortable:hover {
-      background-color: #e9f5ff;
+
+    .table th.sortable:hover {
+      background-color: rgba(224, 231, 255, 0.6);
+      /* Subtle hover */
+      color: var(--primary-gradient-end);
     }
+
     .sort-icon {
       position: absolute;
-      right: 0.5rem;
+      right: 0.7rem;
+      /* Adjust position */
       top: 50%;
       transform: translateY(-50%);
-      opacity: 0.5;
-      transition: opacity 0.3s ease;
+      opacity: 0.4;
+      transition: opacity 0.2s ease, color 0.2s ease;
+      font-size: 0.8em;
     }
-    .sortable:hover .sort-icon {
+
+    .table th.sortable:hover .sort-icon {
+      opacity: 0.8;
+    }
+
+    .table th.sortable.sort-active {
+      background-color: rgba(224, 231, 255, 0.8);
+      color: var(--primary-gradient-end);
+    }
+
+    .table th.sortable.sort-active .sort-icon {
       opacity: 1;
+      color: var(--primary-gradient-end);
     }
-    .sort-active {
-      background-color: #e9f5ff;
+
+    /* Table Body */
+    .table tbody tr {
+      transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .sort-active .sort-icon {
-      opacity: 1;
+
+    .table tbody td {
+      padding: 0.8rem 1rem;
+      /* Adjust padding */
+      vertical-align: middle;
+      font-size: 0.95rem;
+      color: #5a6a85;
+      border-bottom: 1px solid #edf2f9;
+      /* Lighter row separator */
     }
-    .export-btn {
-      background-color: #2c3e50;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.5rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
+
+    /* Alternating row colors (optional, can remove if hover is enough) */
+    .table tbody tr:nth-child(even) td {
+      background-color: rgba(248, 249, 252, 0.5);
+      /* Very subtle */
     }
-    .export-btn:hover {
-      background-color: #34495e;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Row Hover Effect */
+    .table-hover tbody tr:hover {
+      background-color: var(--table-row-hover-bg);
+      transform: scale(1.015);
+      /* Slight scale */
+      box-shadow: 0 6px 15px rgba(147, 165, 207, 0.2);
+      z-index: 1;
+      /* Bring hovered row above others */
+      position: relative;
+      /* Needed for z-index */
+    }
+
+    .table-hover tbody tr:hover td {
+      color: var(--text-dark);
+      /* Darken text on hover */
+    }
+
+    /* Maintain border radius on hovered row cells */
+    .table-hover tbody tr:hover td:first-child {
+      border-bottom-left-radius: var(--border-radius-sm);
+      border-top-left-radius: var(--border-radius-sm);
+    }
+
+    .table-hover tbody tr:hover td:last-child {
+      border-bottom-right-radius: var(--border-radius-sm);
+      border-top-right-radius: var(--border-radius-sm);
+    }
+
+    /* Empty state */
+    .table tbody tr td[colspan="7"] {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+      background-color: transparent !important;
+      /* Override zebra striping */
+    }
+
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 991px) {
+      .table thead {
+        /* display: none; -- Hide header on small screens, or adapt */
+      }
+
+      /* Consider alternative table display for very small screens if needed */
+      .filters-container .row>div {
+        margin-bottom: 10px;
+      }
+
+      /* Stack filters */
+      .filters-container .text-end {
+        text-align: left !important;
+      }
+
+      /* Align export button left */
+    }
+
+    @media (max-width: 767px) {
+      body {
+        padding-top: 100px;
+      }
+
+      .navbar {
+        width: 95%;
+      }
+
+      .content-container {
+        padding: 0 0.5rem;
+        max-width: 100%;
+      }
+
+      .filters-container {
+        padding: 1rem 1.2rem;
+      }
+
+      .table-container {
+        padding: 1rem 1.2rem;
+      }
+
+      .table-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .table th,
+      .table td {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.5rem;
+      }
+
+      .table th.sortable {
+        padding-right: 1.2rem;
+      }
+
+      .sort-icon {
+        right: 0.3rem;
+      }
+
+      .export-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      /* Full width export */
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+
+      body,
+      .navbar,
+      .content-container,
+      .filters-container,
+      .table-container,
+      .export-btn,
+      .export-btn i,
+      .table tbody tr {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg">
     <div class="container">
@@ -349,4 +682,5 @@
     }
   </script>
 </body>
+
 </html>
