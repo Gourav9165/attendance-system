@@ -296,8 +296,7 @@
       padding: 2.5rem;
       display: flex;
       gap: 35px;
-      align-items: center;
-      /* Vertically center items */
+      align-items: flex-start; /* Align items at the start */
     }
 
     /* --- Camera Preview Styling --- */
@@ -313,6 +312,8 @@
       /* Clip video */
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* Align with top of the form area */
+      margin-top: 0;
     }
 
     /* Add a subtle interactive border effect */
@@ -392,38 +393,33 @@
       margin-bottom: 2rem;
     }
 
-    /* Input Wrapper for potential icon placement */
+    /* Wrapper for margin */
     .input-wrapper {
-      position: relative;
-      margin-bottom: 1.2rem;
-      /* Spacing between fields */
+        margin-bottom: 1.2rem; /* Spacing between fields */
     }
 
     #registrationForm .form-label {
       font-weight: 500;
       font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem; /* Space between label and input */
       display: block;
       /* Ensure label is above input */
       transition: color 0.3s ease;
     }
 
-    #registrationForm .form-control {
+    /* Base form control styles (default Bootstrap behavior) */
+    #registrationForm .form-control,
+    #registrationForm .form-select {
       border-radius: var(--border-radius-sm);
       border: 1px solid var(--border-light);
       background-color: #f8f9fc;
-      /* Slightly different background */
-      padding: 0.8rem 1.1rem;
-      /* Generous padding */
-      padding-left: 2.5rem;
-      /* Add if using icons inside */
+      padding: 0.8rem 1.1rem; /* Standard padding */
       font-size: 1rem;
       font-weight: 400;
       color: var(--text-dark);
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      width: 100%;
-      /* Ensure full width */
+      width: 100%; /* Ensure full width */
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
     }
 
@@ -432,7 +428,8 @@
     }
 
     /* Input focus state */
-    #registrationForm .form-control:focus {
+    #registrationForm .form-control:focus,
+    #registrationForm .form-select:focus {
       border-color: var(--border-focus);
       background-color: var(--modal-bg);
       box-shadow: 0 0 0 3px rgba(163, 177, 241, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -440,29 +437,17 @@
     }
 
     /* Change label color when input is focused */
-    #registrationForm .form-control:focus+.form-label,
-    #registrationForm .form-control:focus~.form-label
+     #registrationForm .form-control:focus ~ .form-label, /* If label is AFTER input */
+     #registrationForm .form-control:focus + .form-label, /* If label is immediately AFTER input */
+     #registrationForm .form-select:focus ~ .form-label,
+     #registrationForm .form-select:focus + .form-label,
+     #registrationForm .input-wrapper:focus-within .form-label /* General case: label is within a focused wrapper */
+     {
+        color: var(--primary-gradient-end);
+     }
 
-    /* If label is after */
-      {
-      color: var(--primary-gradient-end);
-    }
+    /* REMOVE all icon-specific CSS (input-group, absolute positioning, etc.) */
 
-    /* Add styling for input icons (optional) */
-    .input-wrapper .input-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      transition: color 0.3s ease;
-      pointer-events: none;
-      /* Don't block input */
-    }
-
-    #registrationForm .form-control:focus~.input-icon {
-      color: var(--primary-gradient-end);
-    }
 
     /* Validation Errors */
     #registrationForm .invalid-feedback {
@@ -470,23 +455,17 @@
       font-weight: 500;
       color: #e63946;
       margin-top: 5px;
-      animation: shake 0.4s ease-in-out;
+      display: none; /* Hide by default */
+      /* Removed shake animation as it might feel odd without the icon */
     }
-
-    @keyframes shake {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-5px);
-      }
-
-      75% {
-        transform: translateX(5px);
-      }
+    /* Show invalid feedback when input is invalid */
+    #registrationForm .form-control.is-invalid~.invalid-feedback,
+    #registrationForm .form-select.is-invalid~.invalid-feedback {
+        display: block;
+    }
+     /* Add class to show error, mimics bootstrap validation */
+    #registrationForm .invalid-feedback.d-block {
+        display: block;
     }
 
 
@@ -629,6 +608,7 @@
         flex-basis: auto;
         width: 80%;
         max-width: 320px;
+         margin-top: 0; /* Reset margin */
       }
 
       #registrationFormContainer {
@@ -677,6 +657,7 @@
 
       #registerModal .modal-body {
         padding: 1.5rem;
+        align-items: center; /* Re-center for stacked layout */
       }
 
       #cameraPreviewContainer {
@@ -802,22 +783,35 @@
             <div id="registrationFormContainer">
               <p>Please fill in the student details below:</p>
 
-              <div class="mb-3 input-wrapper"> <!-- Wrap in div -->
+              <!-- Student ID -->
+              <div class="input-wrapper"> <!-- Keep wrapper for margin -->
                 <label for="{{ form.student_id.id_for_label }}" class="form-label">{{ form.student_id.label }}</label>
-                {{ form.student_id }} <!-- Input field -->
-                <i class="fas fa-id-card input-icon"></i> <!-- Icon -->
-                {% if form.student_id.errors %}...{% endif %}
+                <!-- Removed icon and input-group -->
+                {{ form.student_id }} <!-- Input field directly -->
+                <!-- Display errors using Bootstrap's invalid-feedback -->
+                {% if form.student_id.errors %}
+                  <div class="invalid-feedback d-block">
+                    {{ form.student_id.errors|striptags }}
+                  </div>
+                {% endif %}
               </div>
 
-              <div class="mb-3 input-wrapper"> <!-- Wrap in div -->
+              <!-- Name -->
+              <div class="input-wrapper">
                 <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
-                {{ form.name }} <!-- Input field -->
-                <i class="fas fa-user input-icon"></i> <!-- Icon -->
-                {% if form.name.errors %}...{% endif %}
+                <!-- Removed icon and input-group -->
+                {{ form.name }}
+                {% if form.name.errors %}
+                  <div class="invalid-feedback d-block">
+                     {{ form.name.errors|striptags }}
+                  </div>
+                {% endif %}
               </div>
 
-              <div class="mb-3">
+              <!-- Email -->
+              <div class="input-wrapper">
                 <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                <!-- Removed icon and input-group -->
                 {{ form.email }}
                 {% if form.email.errors %}
                 <div class="invalid-feedback d-block">
@@ -826,8 +820,10 @@
                 {% endif %}
               </div>
 
-              <div class="mb-3">
+              <!-- Phone -->
+              <div class="input-wrapper">
                 <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                <!-- Removed icon and input-group -->
                 {{ form.phone }}
                 {% if form.phone.errors %}
                 <div class="invalid-feedback d-block">
@@ -836,8 +832,10 @@
                 {% endif %}
               </div>
 
-              <div class="mb-3">
+              <!-- Branch -->
+              <div class="input-wrapper">
                 <label for="{{ form.branch.id_for_label }}" class="form-label">{{ form.branch.label }}</label>
+                <!-- Removed icon and input-group -->
                 {{ form.branch }}
                 {% if form.branch.errors %}
                 <div class="invalid-feedback d-block">
@@ -845,6 +843,7 @@
                 </div>
                 {% endif %}
               </div>
+
             </div>
           </div>
           <div class="modal-footer justify-content-between"> <!-- Align buttons -->
@@ -896,7 +895,7 @@
         console.log("Camera preview started successfully.");
       } catch (err) {
         console.error("Error accessing camera: ", err);
-        cameraErrorElement.style.display = 'block';
+        cameraErrorElement.style.display = 'flex'; // Use flex to center content
         videoElement.style.display = 'none';
         // Optionally disable submit button if camera fails crucial step
         // submitBtn.disabled = true;
@@ -916,8 +915,14 @@
     // --- Modal Event Listeners ---
     registerModalElement.addEventListener('show.bs.modal', event => {
       console.log("Modal show event triggered.");
-      // Reset form state if needed (optional)
-      // registrationForm.reset();
+      // Reset form validation state visually (remove is-invalid etc.)
+      registrationForm.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      registrationForm.querySelectorAll('.invalid-feedback').forEach(el => {
+          el.style.display = 'none'; // Ensure feedback is hidden
+          el.classList.remove('d-block'); // Remove d-block if previously added
+      });
+
+
       captureProgress.classList.add('d-none');
       captureInfo.classList.remove('d-none');
       submitBtn.disabled = false;
@@ -930,11 +935,43 @@
     registerModalElement.addEventListener('hide.bs.modal', event => {
       console.log("Modal hide event triggered.");
       stopCameraPreview(); // Stop camera when modal is hidden
+       // Optionally reset the form fields completely if desired
+       // registrationForm.reset();
     });
 
     // --- Form Submission ---
     registrationForm.addEventListener('submit', function (e) {
       console.log("Form submit event triggered.");
+
+      // Basic Client-side validation example (optional, Django handles backend)
+      let formIsValid = true;
+      const fieldsToValidate = ['#id_student_id', '#id_name']; // Add other required fields if needed
+
+      fieldsToValidate.forEach(selector => {
+          const field = registrationForm.querySelector(selector);
+          const wrapper = field ? field.closest('.input-wrapper') : null; // Find the parent wrapper
+          const feedback = wrapper ? wrapper.querySelector('.invalid-feedback') : null;
+
+          if (field && field.value.trim() === '') {
+              field.classList.add('is-invalid');
+              if (feedback) feedback.style.display = 'block'; // Force display block
+              formIsValid = false;
+          } else if (field) {
+              field.classList.remove('is-invalid');
+              if (feedback) feedback.style.display = 'none'; // Hide feedback
+          }
+      });
+
+
+      // If client-side validation fails, prevent submission
+      if (!formIsValid) {
+          e.preventDefault(); // Stop form submission
+          console.log("Client-side validation failed.");
+          return; // Exit the function
+      }
+
+
+      // If validation passes (or no client-side validation)
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
       captureInfo.classList.add('d-none');
@@ -951,34 +988,37 @@
       console.log("Proceeding with form submission to backend...");
     });
 
-    // If using the Take Attendance function from home.html, include it here too
+    // --- Add Dummy showAttendanceModal function if needed ---
     function showAttendanceModal(event) {
-      event.preventDefault(); // Prevent default link behavior
-      const targetUrl = event.currentTarget.href; // Get the URL from the clicked link/button
-
-      // Show the modal immediately (it will show placeholder/styles first)
-      attendanceModal.show();
-
-      // Then try to start the camera preview
-      startAttendancePreview(targetUrl);
+      event.preventDefault();
+      console.warn("Take Attendance clicked, but modal logic might not be fully implemented on this page.");
+      alert("Take Attendance functionality would be initiated here.");
     }
 
-    // Handle Cancel button click
+    // --- Add Dummy stopAttendancePreview function if needed ---
+    function stopAttendancePreview() {
+        console.log("Stopping Attendance Preview (if active).");
+    }
+
+    // --- Add Dummy references if Attendance modal elements are used in shared listeners ---
+    const attendanceModalElement = null;
+    const attendanceModal = null;
+    const attendanceSpinner = null;
+    const attendanceErrorElement = null;
+    const attendanceVideoElement = null;
+
+    // Handle Cancel button click (specifically for Registration Modal)
     cancelBtn.addEventListener('click', () => {
-      stopAttendancePreview();
-      attendanceModal.hide();
-      attendanceSpinner.classList.add('d-none'); // Ensure spinner is hidden
-      attendanceErrorElement.style.display = 'none'; // Hide error
-      attendanceVideoElement.style.display = 'block'; // Reset video display for next time
+      console.log("Cancel button clicked.");
     });
 
-    // Optional: Stop camera if modal is somehow closed unexpectedly
-    attendanceModalElement.addEventListener('hidden.bs.modal', () => {
-      stopAttendancePreview(); // Ensure camera is off if modal is closed
-      attendanceSpinner.classList.add('d-none');
-      attendanceErrorElement.style.display = 'none';
-      attendanceVideoElement.style.display = 'block'; // Reset
-    });
+    // Optional: Handle modal close button click (redundant if using data-bs-dismiss)
+    const closeBtn = document.getElementById('modalCloseBtn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            console.log("Close button clicked.");
+        });
+    }
 
   </script>
 </body>
